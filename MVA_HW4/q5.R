@@ -1,0 +1,11 @@
+rm(list = ls())
+y <- read.table('C:/Users/Ray Chen/Desktop/MVA/battery.DAT')
+model1 <- lm(V6 ~ V1 + V2 + V3 + V4 + V5, data = y)
+summary(model1)
+plot(model1$fitted.values, model1$residuals,xlab = expression(hat(y)), ylab = expression(e))
+
+model2 <- lm(log(V6) ~ V1 + V2 + V3 + V4 + V5, data = y)
+model2.subset <- step(model2, direction = "both")
+summary(model2.subset)
+plot(model2.subset$fitted.values, model2.subset$residuals,xlab = expression(log(hat(y))), ylab = expression(e))
+shapiro.test(model2.subset$residuals)

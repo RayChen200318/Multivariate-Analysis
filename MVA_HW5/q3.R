@@ -1,0 +1,17 @@
+library(ellipse)
+library(plotrix)
+mean_vector <- c(1,2)
+cov_matrix <- matrix(c(5,2,2,2), nrow = 2)
+ellipse_points <- ellipse(cov_matrix, centre = mean_vector, level = 0.95)
+plot(NA, xlim = c(-5, 10), ylim = c(-5, 10), xlab = 'Y1', ylab = 'Y2')
+lines(ellipse_points, type = 'l', col = 'blue')
+points(mean_vector[1], mean_vector[2], col = 'red', pch = 19)
+eigen_decomp <- eigen(cov_matrix)
+eigenvalues <- eigen_decomp$values
+eigenvectors <- - eigen_decomp$vectors
+long_axis_length <- 4 * sqrt(eigenvalues[1])
+short_axis_length <- 4 * sqrt(eigenvalues[2])
+arrows(mean_vector[1], mean_vector[2], mean_vector[1] + eigenvectors[1,1] * long_axis_length, mean_vector[2] + eigenvectors[2,1] * long_axis_length, col = 'black', lwd = 2)
+arrows(mean_vector[1], mean_vector[2], mean_vector[1] + eigenvectors[1,2] * short_axis_length, mean_vector[2] + eigenvectors[2,2] * short_axis_length, col = 'black', lwd = 2)
+text(mean_vector[1] + eigenvectors[1,1] * long_axis_length, mean_vector[2] + eigenvectors[2,1] * long_axis_length, labels = "Z1", pos = 3, col = 'black')
+text(mean_vector[1] + eigenvectors[1,2] * short_axis_length, mean_vector[2] + eigenvectors[2,2] * short_axis_length, labels = "Z2", pos = 3, col = 'black')
